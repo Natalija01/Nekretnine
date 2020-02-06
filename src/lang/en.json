@@ -1,0 +1,42 @@
+{
+  "pages": {
+    "home": "Home",
+    "realestate": "All Properties ",
+    "construction": "Construction Project",
+    "contact": "Contact",
+    "adminPanel": "Admin Panel",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "constructionpage": {
+    "title": "Constraction Projects",
+    "project1": "Project no 1",
+    "project2": "Project no 2",
+    "project3": "Project no 3",
+    "project4": "Project no 4",
+    "project5": "Project no 5"
+  },
+  "allproperties": {
+    "title": "Find Your Dream Property"
+  },
+  "sorting": {
+    "title": "Our Properties",
+    "apartments": "Apartments",
+    "villas": "Villas",
+    "houses": "Houses",
+    "hotels": "Hotels",
+    "lands": "Lands"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "text": "Whether you’re looking for property for sale in Montenegro area or property for rent, Imperija makes searching easy. We will help you find your dream house in just a few seconds. We offer our clients a wealth of knowledge regarding all aspects of purchasing or selling a home. Whether it is helping you search for your dream home, discussing new Montenegro real estate developments, or assisting with the sale of your property, we would love the opportunity to help. Please feel free to contact us with any questions!",
+    "requirederror":"Field is required",
+    "submit":"Submit!",
+    "submission":"Thanks for your submission!",
+    "correct":"Please fill the form correctly.",
+    "sending":"Sending...",
+    "contactinfo":"CONTACT INFO:",
+    "drzava":"Montenegro",
+    "mobile":"Mobile"
+  }
+}

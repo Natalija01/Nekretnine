@@ -1,0 +1,42 @@
+{
+  "pages": {
+    "home": "Naslovna",
+    "realestate": "Lista nekretnina ",
+    "construction": "Građevinski projekti",
+    "contact": "Kontakt",
+    "adminPanel": "Admin Panel",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "constructionpage": {
+    "title": "Građevinski projekti",
+    "project1": "Project no 1",
+    "project2": "Project no 2",
+    "project3": "Project no 3",
+    "project4": "Project no 4",
+    "project5": "Project no 5"
+  },
+  "allproperties": {
+    "title": "Find Your Dream Property"
+  },
+  "sorting": {
+    "title": "Naše nekretnine",
+    "apartments": "Apartmani",
+    "villas": "Vile",
+    "houses": "Kuće",
+    "hotels": "Hoteli",
+    "lands": "Zemljišta"
+  },
+  "contact": {
+    "title": "Kontaktirajte nas",
+    "text": "Pomoći ćemo Vam da pronađete svoju nekretninu iz snova u samo nekoliko sekundi. Svojim klijentima nudimo bogatstvo znanja o svim aspektima kupovine ili prodaje nekretnine. Bez obzira na to da li Vam treba pomoć da potražite svoj dom iz snova, ili pomoć o novim razvojnim događajima u Crnoj Gori ili prodaji vaše imovine, tu smo za Vas. Slobodno nas kontaktirajte za bilo kakva pitanja!",
+    "requirederror":"Polje je obavezno",
+    "submit":"Pošalji",
+    "submission":"Hvala za vašu poruku!",
+    "correct":"Molimo Vas popunite formu ispravno.",
+    "sending":"Šalje se",
+    "contactinfo":"Kontakt informacije:",
+    "drzava":"Crna Gora",
+    "mobile":"Mobilni"
+  }
+}
