@@ -82,6 +82,37 @@ const actions = {
       commit('setLoading', false);
     });
   },
+  filterRealEstates({ commit }, payload) {
+    commit('setLoading', true);
+    var array = [];
+    var query =
+      payload && payload.loadMore
+        ? firebase
+            .firestore()
+            .collection('nekretnine')
+            .where('Grad', '==', payload.city)
+            .where('VrstaNekretnine', '==', payload.type)
+            .startAfter(state.lastVisible)
+        : firebase
+            .firestore()
+            .collection('nekretnine')
+            .where('Grad', '==', payload.city)
+            .where('VrstaNekretnine', '==', payload.type);
+    query.get().then(snapshot => {
+      if (snapshot.docs.length > 0) {
+        commit('setSize', true);
+      } else {
+        commit('setSize', false);
+      }
+      commit('setLastVisible', snapshot.docs[snapshot.docs.length - 1]);
+      snapshot.docs.forEach(item => {
+        array.push(item.data());
+        if (payload.loadMore) commit('addToNekretnine', item.data());
+      });
+      if (!payload.loadMore) commit('setNekretnine', array);
+      commit('setLoading', false);
+    });
+  },
   sendToNekretninaView({ commit }, payload) {
     console.log(payload);
     commit('setNekretnina', payload);
