@@ -83,21 +83,24 @@ const actions = {
     });
   },
   filterRealEstates({ commit }, payload) {
-    commit('setLoading', true);
     var array = [];
-    var query =
-      payload && payload.loadMore
-        ? firebase
-            .firestore()
-            .collection('nekretnine')
-            .where('Grad', '==', payload.city)
-            .where('VrstaNekretnine', '==', payload.type)
-            .startAfter(state.lastVisible)
-        : firebase
-            .firestore()
-            .collection('nekretnine')
-            .where('Grad', '==', payload.city)
-            .where('VrstaNekretnine', '==', payload.type);
+    var query = firebase.firestore().collection('nekretnine');
+    if (payload.city.length > 0) {
+      query = query.where('Grad', '==', payload.city);
+    }
+    if (payload.type.length > 0) {
+      query = query.where('VrstaNekretnine', '==', payload.type);
+    }
+    if (payload.priceFrom > 0) {
+      query = query.where('Cena', '<=', payload.priceFrom);
+    }
+    if (payload.priceTo > 0) {
+      query = query.where('Cena', '>=', payload.priceTo);
+    }
+    commit('setLoading', true);
+
+    query =
+      payload && payload.loadMore ? query.startAfter(state.lastVisible) : query;
     query.get().then(snapshot => {
       if (snapshot.docs.length > 0) {
         commit('setSize', true);
