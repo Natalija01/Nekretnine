@@ -53,7 +53,16 @@
             {{ event.Grad }}
           </router-link>
         </h5>
-        <p class="card-text">{{ event.Opis | fixDescription }}.</p>
+        <!-- <p class="card-text" v-if="lang === 'sr'">
+          {{ event.Opis.srpski | fixDescription }}.
+        </p>
+        <p class="card-text" v-if="lang === 'en'">
+          {{ event.Opis.engleski | fixDescription }}.
+        </p>
+        <p class="card-text" v-if="lang === 'ru'">
+          {{ event.Opis.ruski | fixDescription }}.
+        </p> -->
+        <p class="card-text">{{ getOpis | fixDescription }}.</p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Sifra nekretnine : # {{ event.AuxID }}</li>
@@ -98,6 +107,18 @@ export default {
   computed: {
     user() {
       return this.$store.getters.user;
+    },
+    getOpis() {
+      if (typeof this.event.Opis === 'string') {
+        return this.event.Opis;
+      } else {
+        var langs = {
+          sr: 'srpski',
+          en: 'engleski',
+          ru: 'ruski'
+        };
+        return this.event.Opis[langs[this.lang]];
+      }
     }
   },
   filters: {

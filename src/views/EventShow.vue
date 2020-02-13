@@ -51,7 +51,15 @@
           {{ getNekretnina.VrstaNekretnine }} na
           {{ getNekretnina.TipOglasa.toLowerCase() }}
         </h3>
-        <p>{{ getNekretnina.Opis }}</p>
+        <p v-if="lang === 'sr' && getNekretnina.Opis">
+          {{ getNekretnina.Opis.srpski }}
+        </p>
+        <p v-if="lang === 'en' && getNekretnina.Opis">
+          {{ getNekretnina.Opis.engleski }}
+        </p>
+        <p v-if="lang === 'ru' && getNekretnina.Opis">
+          {{ getNekretnina.Opis.ruski }}
+        </p>
 
         MOZE MAPA DA SE DODA OVDJE
       </v-row>
@@ -74,7 +82,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      lang: localStorage.getItem('lang')
+    };
   },
   computed: {
     getNekretnina() {
