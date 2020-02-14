@@ -76,7 +76,9 @@ const actions = {
       commit('setLastVisible', snapshot.docs[snapshot.docs.length - 1]);
       snapshot.docs.forEach(item => {
         array.push(item.data());
-        if (payload) commit('addToNekretnine', item.data());
+        if (payload) {
+          commit('addToNekretnine', item.data());
+        }
       });
       if (!payload) commit('setNekretnine', array);
       commit('setLoading', false);
@@ -91,12 +93,6 @@ const actions = {
     if (payload.type.length > 0) {
       query = query.where('VrstaNekretnine', '==', payload.type);
     }
-    if (payload.priceFrom > 0) {
-      query = query.where('Cena', '<=', payload.priceFrom);
-    }
-    if (payload.priceTo > 0) {
-      query = query.where('Cena', '>=', payload.priceTo);
-    }
     commit('setLoading', true);
 
     query =
@@ -109,7 +105,12 @@ const actions = {
       }
       commit('setLastVisible', snapshot.docs[snapshot.docs.length - 1]);
       snapshot.docs.forEach(item => {
-        array.push(item.data());
+        if (
+          payload.priceFrom <= item.data().Cena &&
+          item.data().Cena <= payload.priceTo
+        ) {
+          array.push(item.data());
+        }
         if (payload.loadMore) commit('addToNekretnine', item.data());
       });
       if (!payload.loadMore) commit('setNekretnine', array);

@@ -159,12 +159,51 @@
         />
       </div>
       <div class="form-group">
+        <v-row justify="center">
+          <v-dialog v-model="dialog" persistent>
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on">Prevodi</v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="headline">Translation</v-card-title>
+              <v-col cols="12" md="12">
+                <v-textarea
+                  solo
+                  name="input-7-4"
+                  label="Ruski prevod"
+                  v-model="ruski"
+                ></v-textarea>
+              </v-col>
+              <v-col cols="12" md="12">
+                <v-textarea
+                  solo
+                  name="input-7-4"
+                  label="Engleski prevod"
+                  v-model="engleski"
+                ></v-textarea>
+              </v-col>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false"
+                  >Disagree</v-btn
+                >
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialog = false"
+                  :disabled="ruski.length < 50 && engleski.length < 50"
+                  >Agree</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
         <label for="exampleFormControlTextarea1">Opis</label>
         <textarea
           class="form-control"
           id="exampleFormControlTextarea1"
           rows="3"
-          v-model="opis"
+          v-model="srpski"
         ></textarea>
       </div>
       <!-- <button
@@ -185,11 +224,16 @@
   </div>
 </template>
 <script>
+import $ from 'jquery';
 import { required, numeric } from 'vuelidate/lib/validators';
 
 export default {
   data() {
     return {
+      ruski: '',
+      engleski: '',
+      srpski: '',
+      dialog: false,
       loading3: false,
       sifra: '',
       povrsina: '',
@@ -287,13 +331,18 @@ export default {
       this.vrstaNekretnine = event.target.value;
     },
     dodajNekretninu() {
+      const opis = {
+        srpski: this.srpski,
+        engleski: this.engleski,
+        ruski: this.ruski
+      };
       const novaNekretnina = {
         AuxID: this.sifra,
         Cena: this.cijena,
         DeoGrada: this.adresa,
         Grad: this.grad,
         Slika: this.slika,
-        Opis: this.opis,
+        Opis: opis,
         Drzava: 'Crna Gora',
         Status: 'Aktivan',
         TipOglasa: this.tipOglasa,
@@ -303,6 +352,9 @@ export default {
       };
       // this.$store.dispatch('novaNekretnina', novaNekretnina);
       this.$store.commit('setTempNekretnina', novaNekretnina);
+    },
+    toggleTranslations() {
+      $('#myModal').modal('toggle');
     }
   }
 };
