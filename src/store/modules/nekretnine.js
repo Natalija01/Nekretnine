@@ -87,14 +87,13 @@ const actions = {
   filterRealEstates({ commit }, payload) {
     var array = [];
     var query = firebase.firestore().collection('nekretnine');
-    if (payload.city.length > 0) {
-      query = query.where('Grad', '==', payload.city);
-    }
-    if (payload.type.length > 0) {
+    if (payload.type) {
       query = query.where('VrstaNekretnine', '==', payload.type);
     }
+    if (payload.city) {
+      query = query.where('Grad', '==', payload.city);
+    }
     commit('setLoading', true);
-
     query =
       payload && payload.loadMore ? query.startAfter(state.lastVisible) : query;
     query.get().then(snapshot => {
