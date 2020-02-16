@@ -9,11 +9,8 @@
           <div class="col-md-12">
             <div class="input-group">
               <div class="input-group-prepend"></div>
-              <select
-                class="custom-select"
-                id="inputGroupSelect01"
-                v-model="city"
-              >
+              <select class="custom-select" id="izaberiGrad" v-model="city">
+                <option :value="null" disabled>Izaberite grad</option>
                 <option
                   v-for="grad in gradovi"
                   :key="grad.index"
@@ -22,21 +19,21 @@
                 >
               </select>
               <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary dropdown-toggle"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
+                <select
+                  class="custom-select"
+                  id="izaberiGrad"
+                  v-model="realEstateType"
                 >
-                  Tip Nekretnine
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" @click="setTip('Plac')">Plac</a>
-                  <a class="dropdown-item" @click="setTip('Stan')">Stan</a>
-                  <a class="dropdown-item" @click="setTip('Kuca')">Kuca</a>
-                  <a class="dropdown-item" @click="setTip('Garaza')">Garaza</a>
-                </div>
+                  <option :value="null" disabled
+                    >Izaberite tip nekretnine</option
+                  >
+                  <option
+                    v-for="vrste in vrstaNekretnine"
+                    :key="vrste.index"
+                    :value="vrste"
+                    >{{ vrste }}</option
+                  >
+                </select>
               </div>
               <div class="input-group-prepend">
                 <span class="input-group-text">Cijena Od</span>
@@ -109,10 +106,10 @@ export default {
     return {
       filterEnabled: false,
       filterOptions: {},
-      city: 'Podgorica',
+      city: null,
       priceFrom: 0,
       priceTo: 10000000,
-      realEstateType: '',
+      realEstateType: null,
       events: [],
       gradovi: [
         'Podgorica',
@@ -136,7 +133,8 @@ export default {
         'Pluzine',
         'Andrijevica',
         'Savnik'
-      ]
+      ],
+      vrstaNekretnine: ['Plac', 'Stan', 'Kuća', 'Garaza']
     };
   },
   computed: {
@@ -149,18 +147,18 @@ export default {
   },
   methods: {
     loadMoreNekretnina() {
-      var repo = 'takeAllNekretnine';
       if (this.filterEnabled) {
-        repo = 'filterRealEstates';
+        this.$store.dispatch('filterRealEstates', true);
+      } else {
+        this.$store.dispatch('takeAllNekretnine', true);
       }
-      this.$store.dispatch(repo, true);
     },
     setTip(value) {
       this.realEstateType = value;
     },
     filterRealEstates() {
       const filterOptions = {
-        city: this.city,
+        city: this.city ? this.city : '',
         type: this.realEstateType,
         priceFrom: this.priceFrom,
         priceTo: this.priceTo
