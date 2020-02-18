@@ -35,6 +35,17 @@
                   >
                 </select>
               </div>
+              <div class="input-group-append">
+                <select class="custom-select" id="izaberiGrad" v-model="type">
+                  <option :value="null" disabled>Izaberite tip oglasa</option>
+                  <option
+                    v-for="vrste in tipOglasa"
+                    :key="vrste.index"
+                    :value="vrste"
+                    >{{ vrste }}</option
+                  >
+                </select>
+              </div>
               <div class="input-group-prepend">
                 <span class="input-group-text">Cijena Od</span>
               </div>
@@ -107,6 +118,7 @@ export default {
       filterEnabled: false,
       filterOptions: {},
       city: null,
+      type: null,
       priceFrom: 0,
       priceTo: 10000000,
       realEstateType: null,
@@ -134,7 +146,8 @@ export default {
         'Andrijevica',
         'Savnik'
       ],
-      vrstaNekretnine: ['Plac', 'Stan', 'Kuća', 'Garaza']
+      vrstaNekretnine: ['Plac', 'Stan', 'Kuća', 'Garaza'],
+      tipOglasa: ['Prodaja', 'Iznajmljivanje']
     };
   },
   computed: {
@@ -160,6 +173,7 @@ export default {
       const filterOptions = {
         city: this.city ? this.city : '',
         type: this.realEstateType,
+        typeOglasa: this.type,
         priceFrom: this.priceFrom,
         priceTo: this.priceTo
       };

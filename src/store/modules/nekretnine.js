@@ -93,6 +93,9 @@ const actions = {
     if (payload.city) {
       query = query.where('Grad', '==', payload.city);
     }
+    if (payload.typeOglasa) {
+      query = query.where('TipOglasa', '==', payload.typeOglasa);
+    }
     commit('setLoading', true);
     query =
       payload && payload.loadMore ? query.startAfter(state.lastVisible) : query;
