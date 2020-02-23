@@ -51,17 +51,13 @@
           {{ getNekretnina.VrstaNekretnine }} na
           {{ getNekretnina.TipOglasa.toLowerCase() }}
         </h3>
-        <p v-if="lang === 'sr' && getNekretnina.Opis">
-          {{ getNekretnina.Opis.srpski }}
-        </p>
-        <p v-if="lang === 'en' && getNekretnina.Opis">
-          {{ getNekretnina.Opis.engleski }}
-        </p>
-        <p v-if="lang === 'ru' && getNekretnina.Opis">
-          {{ getNekretnina.Opis.ruski }}
-        </p>
+        <v-btn text small color="primary" v-if="user" @click="editNekretnina"
+          >Edit</v-btn
+        >
 
-        MOZE MAPA DA SE DODA OVDJE
+        <div v-if="lang && getNekretnina.Opis">
+          {{ getOpis }}
+        </div>
       </v-row>
     </v-container>
   </div>
@@ -86,9 +82,31 @@ export default {
       lang: localStorage.getItem('lang')
     };
   },
+  methods: {
+    editNekretnina() {
+      this.$store.commit('setEditNekretnina', this.getNekretnina);
+      // this.$i18nRoute({ path: '/' + this.lang + '/dashboard' });
+      this.$router.push('/' + this.lang + '/dashboard');
+    }
+  },
   computed: {
     getNekretnina() {
       return this.$store.getters.getNekretnina;
+    },
+    getOpis() {
+      if (typeof this.getNekretnina.Opis === 'string') {
+        return this.getNekretnina.Opis;
+      } else {
+        var langs = {
+          sr: 'srpski',
+          en: 'engleski',
+          ru: 'ruski'
+        };
+        return this.getNekretnina.Opis[langs[this.lang]];
+      }
+    },
+    user() {
+      return this.$store.getters.user;
     }
   }
 };

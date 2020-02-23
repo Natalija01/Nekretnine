@@ -8,7 +8,8 @@ const state = {
   lastVisible: {},
   size: false,
   tempNekretnina: {},
-  tmpImages: []
+  tmpImages: [],
+  editNekretnina: {}
 };
 
 const getters = {
@@ -26,6 +27,9 @@ const getters = {
   },
   getTempSlika(state) {
     return state.tmpImages;
+  },
+  getEditNekretnina(state) {
+    return state.editNekretnina;
   }
 };
 
@@ -48,8 +52,14 @@ const mutations = {
   setTempImages(state, payload) {
     state.tmpImages.push(payload);
   },
+  setFullTempImages(state, payload) {
+    state.tmpImages = payload;
+  },
   setTempNekretnina(state, payload) {
     state.tempNekretnina = payload;
+  },
+  setEditNekretnina(state, payload) {
+    state.editNekretnina = payload;
   }
 };
 
@@ -194,6 +204,12 @@ const actions = {
             });
         });
     }
+  },
+  removeTempImages({ commit, state }, payload) {
+    var arr = state.tmpImages;
+    arr.splice(payload, 1);
+    commit('setFullTempImages', arr);
+    // setFullTempImages
   }
   // addNekretnine({ commit }, payload) {
   // 	var array = payload;
