@@ -127,9 +127,21 @@
           :options="{ rootObjectKey: '$v.vrstaNekretnine', maxDepth: 2 }"
         ></tree-view
       ></template>
+      <div class="form-group">
+        <label for="drzavaSelect">Drzava</label>
+        <select
+          class="form-control form__input"
+          v-model="drzavaSelect"
+          id="drzavaSelect"
+          @change="selectDrzavaChangeGrad"
+        >
+          <option v-for="drz in drzava" :key="drz">{{ drz }}</option>
+        </select>
+      </div>
       <div class="form-group" :class="{ 'form-group--error': $v.grad.$error }">
         <label for="exampleFormControlSelect1">Grad</label>
         <select
+          :disabled="drzavaSelect === null"
           class="form-control form__input"
           v-model.trim="$v.grad.$model"
           id="exampleFormControlSelect1"
@@ -230,6 +242,7 @@ import { required, numeric } from 'vuelidate/lib/validators';
 export default {
   data() {
     return {
+      drzava: ['Srbija', 'Crna Gora'],
       ruski: '',
       engleski: '',
       srpski: '',
@@ -242,10 +255,12 @@ export default {
       grad: '',
       adresa: '',
       opis: '',
+      drzavaSelect: null,
       slika: [
         'http://realestate360.me/wp-content/uploads/2018/02/1-4-835x467.jpg'
       ],
-      gradovi: [
+      gradovi: [],
+      gradoviCG: [
         'Podgorica',
         'Niksic',
         'Pljevlja',
@@ -267,6 +282,37 @@ export default {
         'Pluzine',
         'Andrijevica',
         'Savnik'
+      ],
+      gradoviSRB: [
+        'Belgrade',
+        'Bor',
+        'Čačak',
+        'Jagodina',
+        'Kikinda',
+        'Kraljevo',
+        'Kragujevac',
+        'Kruševac',
+        'Leskovac',
+        'Loznica',
+        'Novi Pazar',
+        'Novi Sad',
+        'Niš',
+        'Pančevo',
+        'Pirot',
+        'Požarevac',
+        'Priština',
+        'Prokuplje',
+        'Smederevo',
+        'Sombor',
+        'Sremska Mitrovica',
+        'Subotica',
+        'Šabac',
+        'Užice',
+        'Valjevo',
+        'Vranje',
+        'Vršac',
+        'Zaječar',
+        'Zrenjanin'
       ],
       vrstaNekretnine: '',
       submitStatus: null
@@ -327,6 +373,10 @@ export default {
     uzmiGrad(event) {
       this.grad = event.target.value;
     },
+    selectDrzavaChangeGrad(event) {
+      this.gradovi =
+        event.target.value === 'Srbija' ? this.gradoviSRB : this.gradoviCG;
+    },
     uzmiVrstuNekretnine(event) {
       this.vrstaNekretnine = event.target.value;
     },
@@ -343,7 +393,7 @@ export default {
         Grad: this.grad,
         Slika: this.slika,
         Opis: opis,
-        Drzava: 'Crna Gora',
+        Drzava: this.drzavaSelect,
         Status: 'Aktivan',
         TipOglasa: this.tipOglasa,
         Valuta: 'EUR',
@@ -355,6 +405,30 @@ export default {
     },
     toggleTranslations() {
       $('#myModal').modal('toggle');
+    }
+  },
+  computed: {
+    getEditNekretnina() {
+      return this.$store.getters.getEditNekretnina;
+    }
+  },
+  created() {
+    var editMode = false;
+    console.log(this.getEditNekretnina);
+    editMode =
+      this.getEditNekretnina && this.getEditNekretnina.AuxID ? true : false;
+    if (editMode) {
+      this.sifra = this.getEditNekretnina.AuxID;
+      this.cijena = this.getEditNekretnina.Cena;
+      this.adresa = this.getEditNekretnina.DeoGrada;
+      this.slika = this.getEditNekretnina.Slika;
+      this.srpski = this.getEditNekretnina.Opis;
+      this.drzavaSelect =
+        this.getEditNekretnina.Država || this.getEditNekretnina.Drzava;
+      this.grad = this.getEditNekretnina.Grad;
+      this.tipOglasa = this.getEditNekretnina.TipOglasa;
+      this.vrstaNekretnine = this.getEditNekretnina.VrstaNekretnine;
+      this.povrsina = this.getEditNekretnina.Ukupnapovršina;
     }
   }
 };

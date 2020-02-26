@@ -8,6 +8,9 @@
         show-arrows-on-hover
       >
         <v-carousel-item v-for="(img, i) in getTempSlika" :key="i" :src="img">
+          <v-btn small color="error" @click="deleteImage(i)"
+            >Delete Image</v-btn
+          >
         </v-carousel-item>
       </v-carousel>
     </v-row>
@@ -41,6 +44,16 @@ export default {
       image: ''
     };
   },
+  created() {
+    var editMode = false;
+    editMode =
+      this.getEditNekretnine && this.getEditNekretnine.AuxID ? true : false;
+    if (editMode) {
+      this.getEditNekretnine.Slika.forEach(item => {
+        this.$store.commit('setTempImages', item);
+      });
+    }
+  },
   methods: {
     onFilePicked(event) {
       const files = event.target.files;
@@ -66,6 +79,9 @@ export default {
     read(image) {
       const fileReader = new FileReader();
       return fileReader.readAsDataURL(image);
+    },
+    deleteImage(index) {
+      this.getTempSlika.splice(index, 1);
     }
   },
   computed: {
@@ -74,6 +90,9 @@ export default {
     },
     getTempSlika() {
       return this.$store.getters.getTempSlika;
+    },
+    getEditNekretnine() {
+      return this.$store.getters.getEditNekretnina;
     }
   }
 };
